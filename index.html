@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План на день</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar" aria-label="Навигация планировщика">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">П</span>
+          <div>
+            <h1>План на день</h1>
+            <p id="current-period">Сегодня</p>
+          </div>
+        </div>
+
+        <div class="date-controls" aria-label="Переход по датам">
+          <button class="icon-button" type="button" id="prev-period" aria-label="Назад">‹</button>
+          <button class="secondary-button" type="button" id="today-button">Сегодня</button>
+          <button class="icon-button" type="button" id="next-period" aria-label="Вперед">›</button>
+          <input type="date" id="date-picker" aria-label="Выбрать дату">
+        </div>
+
+        <nav class="view-tabs" aria-label="Режим календаря">
+          <button class="view-tab" type="button" data-view="day">День</button>
+          <button class="view-tab is-active" type="button" data-view="week">Неделя</button>
+          <button class="view-tab" type="button" data-view="month">Месяц</button>
+          <button class="view-tab" type="button" data-view="year">Год</button>
+        </nav>
+      </header>
+
+      <main class="workspace">
+        <section class="calendar-panel" aria-labelledby="calendar-title">
+          <div class="calendar-heading">
+            <div>
+              <h2 id="calendar-title">День</h2>
+              <p id="calendar-subtitle">Стартовый экран планировщика</p>
+            </div>
+            <div class="calendar-actions">
+              <button class="primary-button add-task-button" type="button" id="add-task-button">
+                <span aria-hidden="true">+</span>
+                Добавить новую задачу
+              </button>
+              <div class="storage-pill" id="storage-status">Данные загружаются</div>
+            </div>
+          </div>
+
+          <div class="task-composer is-hidden" id="task-composer" aria-labelledby="task-form-title">
+            <div class="task-composer-card">
+              <div class="panel-header">
+                <div>
+                  <p class="panel-kicker">Форма задачи</p>
+                  <h2 id="task-form-title">Новая задача</h2>
+                </div>
+                <button class="composer-close-button" type="button" id="close-task-form-button" aria-label="Закрыть форму" title="Закрыть">×</button>
+              </div>
+
+              <form class="task-form" id="task-form">
+                <label>
+                  Название
+                  <input type="text" id="task-title" name="title" placeholder="Например, встреча или занятие">
+                </label>
+
+                <label>
+                  Категория
+                  <select id="task-category" name="category"></select>
+                </label>
+
+                <label>
+                  Дата
+                  <input type="date" id="task-date" name="date">
+                </label>
+
+                <label class="checkbox-row">
+                  <input type="checkbox" id="task-all-day" name="isAllDay" checked>
+                  <span>Без времени</span>
+                </label>
+
+                <div class="time-grid" aria-label="Время задачи">
+                  <label>
+                    Начало
+                    <select id="task-start" name="startTime"></select>
+                  </label>
+                  <label>
+                    Окончание
+                    <select id="task-end" name="endTime"></select>
+                  </label>
+                </div>
+
+                <label>
+                  Приоритет
+                  <select id="task-priority" name="priority"></select>
+                </label>
+
+                <label>
+                  Повтор
+                  <select id="task-repeat" name="repeat"></select>
+                </label>
+
+                <fieldset class="weekday-picker is-hidden" id="weekday-picker">
+                  <legend>Дни недели</legend>
+                  <label>
+                    <input type="checkbox" name="weekday" value="1">
+                    Пн
+                  </label>
+                  <label>
+                    <input type="checkbox" name="weekday" value="2">
+                    Вт
+                  </label>
+                  <label>
+                    <input type="checkbox" name="weekday" value="3">
+                    Ср
+                  </label>
+                  <label>
+                    <input type="checkbox" name="weekday" value="4">
+                    Чт
+                  </label>
+                  <label>
+                    <input type="checkbox" name="weekday" value="5">
+                    Пт
+                  </label>
+                  <label>
+                    <input type="checkbox" name="weekday" value="6">
+                    Сб
+                  </label>
+                  <label>
+                    <input type="checkbox" name="weekday" value="7">
+                    Вс
+                  </label>
+                </fieldset>
+
+                <label>
+                  Заметка
+                  <textarea id="task-note" name="note" rows="4" placeholder="Необязательно"></textarea>
+                </label>
+
+                <div class="form-message" id="form-message" aria-live="polite"></div>
+
+                <div class="form-actions">
+                  <button class="primary-button" type="submit">Сохранить</button>
+                  <button class="secondary-button" type="button" id="cancel-task-button">Отмена</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="filter-row" aria-label="Фильтры категорий">
+            <button class="filter-chip is-active" type="button" data-category="all">Все</button>
+            <button class="filter-chip" type="button" data-category="work">Работа</button>
+            <button class="filter-chip" type="button" data-category="children">Дети</button>
+            <button class="filter-chip" type="button" data-category="birthday">Дни рождения</button>
+            <button class="filter-chip" type="button" data-category="home">Дом</button>
+            <button class="filter-chip" type="button" data-category="health">Здоровье</button>
+            <button class="filter-chip" type="button" data-category="personal">Личное</button>
+          </div>
+
+          <div class="calendar-placeholder" id="calendar-root">
+            <div class="placeholder-card">
+              <span class="placeholder-icon" aria-hidden="true">✦</span>
+              <h3>Каркас календаря готов</h3>
+              <p>Следующий шаг добавит отображение дня, недели, месяца и года.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <div class="modal-backdrop is-hidden" id="conflict-modal" role="dialog" aria-modal="true" aria-labelledby="conflict-title">
+        <div class="modal-card">
+          <h2 id="conflict-title">Время уже занято</h2>
+          <p id="conflict-text">На это время уже есть задача. Можно сохранить всё равно или вернуться к редактированию.</p>
+          <div class="modal-actions">
+            <button class="primary-button" type="button" id="save-conflict-button">Сохранить всё равно</button>
+            <button class="secondary-button" type="button" id="edit-conflict-button">Вернуться к редактированию</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-backdrop is-hidden" id="scope-modal" role="dialog" aria-modal="true" aria-labelledby="scope-title">
+        <div class="modal-card">
+          <h2 id="scope-title">Повторяющаяся задача</h2>
+          <p id="scope-text">Применить действие только к этой дате или ко всей серии?</p>
+          <div class="modal-actions">
+            <button class="primary-button" type="button" id="scope-single-button">Только эту дату</button>
+            <button class="secondary-button" type="button" id="scope-series-button">Всю серию</button>
+            <button class="secondary-button" type="button" id="scope-cancel-button">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-backdrop is-hidden" id="delete-modal" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+        <div class="modal-card">
+          <h2 id="delete-title">Удалить задачу?</h2>
+          <p id="delete-text">После подтверждения задача исчезнет из календаря.</p>
+          <div class="modal-actions">
+            <button class="primary-button danger-button" type="button" id="confirm-delete-button">Удалить</button>
+            <button class="secondary-button" type="button" id="cancel-delete-button">Отмена</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
